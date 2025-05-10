@@ -1,8 +1,10 @@
+import 'package:pillie_app/utils/dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> init() async {
+  final env = await parseDotEnv();
   await Supabase.initialize(
-    anonKey: "",
-    url: "",
+    anonKey: '${env["SUPABASE_KEY"]}',
+    url: '${env["SUPABASE_URL"]}',
   );
 }

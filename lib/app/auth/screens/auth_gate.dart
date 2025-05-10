@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pillie_app/auth/screens/login_page.dart';
-import 'package:pillie_app/profile/screens/profile_page.dart';
+import 'package:pillie_app/app/auth/screens/login_page.dart';
+import 'package:pillie_app/app/profile/screens/profile_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthGate extends StatelessWidget {

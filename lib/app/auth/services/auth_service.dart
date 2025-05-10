@@ -12,7 +12,7 @@ class AuthService {
     return await _supabaseClient.auth.signUp(password: password, email: email);
   }
 
-  Future<void> signOut(String email, String password) async {
+  Future<void> signOut() async {
     return await _supabaseClient.auth.signOut();
   }
 
