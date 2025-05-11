@@ -1,7 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+TextTheme textTheme = TextTheme(
+  bodyLarge: GoogleFonts.poppins(fontSize: 22.0),
+  bodyMedium: GoogleFonts.poppins(fontSize: 20.0),
+  bodySmall: GoogleFonts.poppins(fontSize: 18.0),
+  titleLarge: GoogleFonts.poppins(fontSize: 36.0),
+  titleSmall: GoogleFonts.poppins(fontSize: 28.0),
+  titleMedium: GoogleFonts.poppins(fontSize: 24.0),
+  labelLarge: GoogleFonts.poppins(fontSize: 18.0),
+  labelSmall: GoogleFonts.poppins(fontSize: 14.0),
+  labelMedium: GoogleFonts.poppins(fontSize: 16.0),
+);
+
+Color lightTeal = const Color.fromARGB(255, 22, 190, 173);
 
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
+  textTheme: textTheme,
   appBarTheme: const AppBarTheme(
     titleTextStyle: TextStyle(
       color: Colors.black,
@@ -23,6 +39,7 @@ ThemeData lightTheme = ThemeData(
 
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
+  textTheme: textTheme,
   appBarTheme: const AppBarTheme(
     titleTextStyle: TextStyle(
       color: Colors.white,

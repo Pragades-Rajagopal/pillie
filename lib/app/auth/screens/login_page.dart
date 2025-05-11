@@ -1,12 +1,15 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pillie_app/app/auth/screens/register_page.dart';
 import 'package:pillie_app/app/auth/services/auth_service.dart';
-import 'package:pillie_app/app/components/text_form_field.dart';
+import 'package:pillie_app/components/text_button.dart';
+import 'package:pillie_app/components/text_form_field.dart';
+import 'package:pillie_app/components/text_link.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final Function() togglePage;
+  const LoginPage({
+    super.key,
+    required this.togglePage,
+  });
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -41,22 +44,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pillie'),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              AdaptiveThemeMode? themeMode = await AdaptiveTheme.getThemeMode();
-              if (themeMode == AdaptiveThemeMode.dark) {
-                AdaptiveTheme.of(context).setLight();
-              } else {
-                AdaptiveTheme.of(context).setDark();
-              }
-            },
-            icon: const Icon(CupertinoIcons.thermometer),
-          )
-        ],
-      ),
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Container(
@@ -90,20 +77,13 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: true,
                   ),
                   const SizedBox(height: 14),
-                  ElevatedButton(
-                    onPressed: login,
-                    child: const Text('Login'),
+                  AppTextButton(buttonText: 'Login', onTap: login),
+                  const SizedBox(height: 14),
+                  AppTextLink(
+                    onTap: widget.togglePage,
+                    linkText: 'Sign up',
+                    prefixText: 'New to the app?',
                   ),
-                  const SizedBox(height: 12),
-                  GestureDetector(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RegisterPage(),
-                      ),
-                    ),
-                    child: const Text('Register'),
-                  )
                 ],
               ),
             ),

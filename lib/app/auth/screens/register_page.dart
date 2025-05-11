@@ -1,11 +1,15 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pillie_app/app/auth/services/auth_service.dart';
-import 'package:pillie_app/app/components/text_form_field.dart';
+import 'package:pillie_app/components/text_button.dart';
+import 'package:pillie_app/components/text_form_field.dart';
+import 'package:pillie_app/components/text_link.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  final Function() togglePage;
+  const RegisterPage({
+    super.key,
+    required this.togglePage,
+  });
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -52,22 +56,6 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign Up'),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              AdaptiveThemeMode? themeMode = await AdaptiveTheme.getThemeMode();
-              if (themeMode == AdaptiveThemeMode.dark) {
-                AdaptiveTheme.of(context).setLight();
-              } else {
-                AdaptiveTheme.of(context).setDark();
-              }
-            },
-            icon: const Icon(CupertinoIcons.thermometer),
-          )
-        ],
-      ),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -112,9 +100,16 @@ class _RegisterPageState extends State<RegisterPage> {
                     obscureText: true,
                   ),
                   const SizedBox(height: 12),
-                  ElevatedButton(
-                    onPressed: register,
-                    child: const Text('Sign Up'),
+                  AppTextButton(
+                    buttonText: 'Sign Up',
+                    onTap: register,
+                    buttonColor: Colors.lightBlue,
+                  ),
+                  const SizedBox(height: 14),
+                  AppTextLink(
+                    onTap: widget.togglePage,
+                    linkText: 'Login',
+                    prefixText: 'Already have an account?',
                   ),
                 ],
               ),
