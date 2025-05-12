@@ -1,3 +1,4 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pillie_app/app/auth/services/auth_service.dart';
@@ -22,6 +23,17 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: const Text('Profile'),
         actions: [
+          IconButton(
+            onPressed: () async {
+              AdaptiveThemeMode? themeMode = await AdaptiveTheme.getThemeMode();
+              if (themeMode == AdaptiveThemeMode.dark) {
+                AdaptiveTheme.of(context).setLight();
+              } else {
+                AdaptiveTheme.of(context).setDark();
+              }
+            },
+            icon: const Icon(CupertinoIcons.thermometer),
+          ),
           IconButton(
               onPressed: logout,
               icon: const Icon(CupertinoIcons.square_arrow_left_fill))
