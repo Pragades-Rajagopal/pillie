@@ -31,4 +31,14 @@ class UserModel {
       modifiedAt: map["modified_at"],
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "name": name,
+      "img": img,
+      "days_to_refill": daysToRefill,
+      "items_attention": itemsAttention,
+      "monitor_users": []
+    };
+  }
 }

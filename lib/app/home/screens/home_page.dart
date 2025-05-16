@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pillie_app/app/auth/services/auth_service.dart';
 import 'package:pillie_app/app/home/services/home_database.dart';
 import 'package:pillie_app/app/profile/screens/profile_page.dart';
+import 'package:pillie_app/app/user_inventory/screens/add_user.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -112,14 +114,16 @@ class _HomePageState extends State<HomePage> {
                     final user = users[index];
                     return Card(
                       elevation: 0,
-                      color: Theme.of(context).colorScheme.surface,
-                      // color: Colors.lightGreen[50],
+                      color: Theme.of(context)
+                          .colorScheme
+                          .tertiary
+                          .withOpacity(0.2),
                       margin: const EdgeInsets.fromLTRB(18, 14, 18, 0),
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Color.fromRGBO(220, 237, 200, 1),
-                          width: 0.5,
-                        ),
+                        // side: const BorderSide(
+                        //   color: Color.fromRGBO(220, 237, 200, 1),
+                        //   width: 0.5,
+                        // ),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       shadowColor: Colors.transparent,
@@ -191,6 +195,24 @@ class _HomePageState extends State<HomePage> {
               );
             },
           ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 12.0, bottom: 28.0),
+              child: IconButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddUser(),
+                  ),
+                ),
+                icon: Icon(
+                  CupertinoIcons.add_circled,
+                  size: 28.0,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
