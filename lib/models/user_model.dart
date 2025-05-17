@@ -23,7 +23,7 @@ class UserModel {
     return UserModel(
       id: map["id"] as String,
       name: map["name"] as String,
-      img: map["img"] as String,
+      img: map["img"] != null ? map["img"] as String : null,
       daysToRefill: map["days_to_refill"] as int,
       itemsAttention: map["items_attention"] as int,
       monitorUsers: map["monitor_users"] as List<dynamic>,

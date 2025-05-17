@@ -102,9 +102,16 @@ class _HomePageState extends State<HomePage> {
               }
               final users = snapshot.data!;
               if (users.isEmpty) {
-                return const SliverToBoxAdapter(
-                  child: Center(
-                    child: Text('No users'),
+                return SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
+                    child: Text(
+                      'Add users by clicking on the below icon',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
                   ),
                 );
               }
@@ -135,11 +142,14 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Row(
                               children: [
-                                CircleAvatar(
-                                  backgroundImage: NetworkImage('${user.img}'),
-                                  radius: 32,
-                                ),
-                                const SizedBox(width: 12),
+                                if (user.img != null) ...{
+                                  CircleAvatar(
+                                    backgroundImage:
+                                        NetworkImage('${user.img}'),
+                                    radius: 32,
+                                  ),
+                                  const SizedBox(width: 12),
+                                },
                                 Text(
                                   '${user.name}',
                                   style: TextStyle(
@@ -206,7 +216,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 icon: Icon(
-                  CupertinoIcons.add_circled,
+                  CupertinoIcons.add_circled_solid,
                   size: 28.0,
                   color: Theme.of(context).colorScheme.primary,
                 ),
