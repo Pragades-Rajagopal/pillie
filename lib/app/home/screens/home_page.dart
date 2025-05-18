@@ -4,6 +4,7 @@ import 'package:pillie_app/app/auth/services/auth_service.dart';
 import 'package:pillie_app/app/home/services/home_database.dart';
 import 'package:pillie_app/app/profile/screens/profile_page.dart';
 import 'package:pillie_app/app/user_inventory/screens/add_user.dart';
+import 'package:pillie_app/app/user_inventory/screens/view_user.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -119,83 +120,91 @@ class _HomePageState extends State<HomePage> {
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     final user = users[index];
-                    return Card(
-                      elevation: 0,
-                      color: Theme.of(context)
-                          .colorScheme
-                          .tertiary
-                          .withOpacity(0.2),
-                      margin: const EdgeInsets.fromLTRB(18, 14, 18, 0),
-                      shape: RoundedRectangleBorder(
-                        // side: const BorderSide(
-                        //   color: Color.fromRGBO(220, 237, 200, 1),
-                        //   width: 0.5,
-                        // ),
-                        borderRadius: BorderRadius.circular(10.0),
+                    return GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ViewUser(userInfo: user),
+                        ),
                       ),
-                      shadowColor: Colors.transparent,
-                      surfaceTintColor: Theme.of(context).colorScheme.surface,
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                if (user.img != null) ...{
-                                  CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage('${user.img}'),
-                                    radius: 32,
+                      child: Card(
+                        elevation: 0,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .tertiary
+                            .withOpacity(0.2),
+                        margin: const EdgeInsets.fromLTRB(18, 14, 18, 0),
+                        shape: RoundedRectangleBorder(
+                          // side: const BorderSide(
+                          //   color: Color.fromRGBO(220, 237, 200, 1),
+                          //   width: 0.5,
+                          // ),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        shadowColor: Colors.transparent,
+                        surfaceTintColor: Theme.of(context).colorScheme.surface,
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  if (user.img != null) ...{
+                                    CircleAvatar(
+                                      backgroundImage:
+                                          NetworkImage('${user.img}'),
+                                      radius: 32,
+                                    ),
+                                    const SizedBox(width: 12),
+                                  },
+                                  Text(
+                                    '${user.name}',
+                                    style: TextStyle(
+                                      fontSize: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.fontSize,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  const SizedBox(width: 12),
-                                },
-                                Text(
-                                  '${user.name}',
-                                  style: TextStyle(
-                                    fontSize: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.fontSize,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${user.daysToRefill} days left for refill',
-                                  style: TextStyle(
-                                    fontSize: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.fontSize,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const SizedBox(width: 12),
-                                Text(
-                                  '${user.itemsAttention} tables require immediate action',
-                                  style: TextStyle(
-                                    fontSize: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.fontSize,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                              // const SizedBox(height: 8),
+                              // Column(
+                              //   crossAxisAlignment: CrossAxisAlignment.start,
+                              //   children: [
+                              //     Text(
+                              //       '${user.daysToRefill} days left for refill',
+                              //       style: TextStyle(
+                              //         fontSize: Theme.of(context)
+                              //             .textTheme
+                              //             .bodySmall
+                              //             ?.fontSize,
+                              //         color:
+                              //             Theme.of(context).colorScheme.primary,
+                              //       ),
+                              //       overflow: TextOverflow.ellipsis,
+                              //     ),
+                              //     const SizedBox(width: 12),
+                              //     Text(
+                              //       '${user.itemsAttention} tables require immediate action',
+                              //       style: TextStyle(
+                              //         fontSize: Theme.of(context)
+                              //             .textTheme
+                              //             .bodySmall
+                              //             ?.fontSize,
+                              //         color:
+                              //             Theme.of(context).colorScheme.primary,
+                              //       ),
+                              //       overflow: TextOverflow.ellipsis,
+                              //     ),
+                              //   ],
+                              // ),
+                            ],
+                          ),
                         ),
                       ),
                     );

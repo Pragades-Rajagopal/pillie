@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppTextFormField extends StatelessWidget {
   final String labelText;
@@ -6,6 +7,8 @@ class AppTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final bool? obscureText;
   final double? errorMessageHeight;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
   const AppTextFormField({
     super.key,
     required this.labelText,
@@ -13,6 +16,8 @@ class AppTextFormField extends StatelessWidget {
     this.validator,
     this.obscureText,
     this.errorMessageHeight,
+    this.keyboardType,
+    this.inputFormatters,
   });
 
   @override
@@ -71,6 +76,8 @@ class AppTextFormField extends StatelessWidget {
       ),
       cursorColor: Theme.of(context).colorScheme.primary,
       obscureText: obscureText ?? false,
+      keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
     );
   }
 }

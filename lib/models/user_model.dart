@@ -1,10 +1,16 @@
+import 'package:pillie_app/utils/helper_functions.dart';
+
 class UserModel {
   String? id;
   String? name;
   String? img;
-  int? daysToRefill;
-  int? itemsAttention;
-  List<dynamic>? monitorUsers;
+  int? height;
+  int? weight;
+  String? dob;
+  String? bloodGroup;
+  String? medications;
+  String? medicalNotes;
+  String? organDonor;
   String? createdAt;
   String? modifiedAt;
 
@@ -12,21 +18,29 @@ class UserModel {
     this.id,
     this.name,
     this.img,
-    this.daysToRefill,
-    this.itemsAttention,
+    this.height,
+    this.weight,
+    this.dob,
+    this.bloodGroup,
+    this.medications,
+    this.medicalNotes,
+    this.organDonor,
     this.createdAt,
     this.modifiedAt,
-    this.monitorUsers,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map["id"] as String,
       name: map["name"] as String,
-      img: map["img"] != null ? map["img"] as String : null,
-      daysToRefill: map["days_to_refill"] as int,
-      itemsAttention: map["items_attention"] as int,
-      monitorUsers: map["monitor_users"] as List<dynamic>,
+      img: sanitizeValue<String>(map["img"]),
+      height: sanitizeValue<dynamic>(map["height"]),
+      weight: sanitizeValue<dynamic>(map["weight"]),
+      dob: sanitizeValue<String>(map["dob"]),
+      bloodGroup: sanitizeValue<String>(map["blood_group"]),
+      medications: sanitizeValue<String>(map["medications"]),
+      medicalNotes: sanitizeValue<String>(map["medical_notes"]),
+      organDonor: sanitizeValue<String>(map["organ_donor"]),
       createdAt: map["created_at"],
       modifiedAt: map["modified_at"],
     );
@@ -36,9 +50,13 @@ class UserModel {
     return {
       "name": name,
       "img": img,
-      "days_to_refill": daysToRefill,
-      "items_attention": itemsAttention,
-      "monitor_users": []
+      "height": height,
+      "weight": weight,
+      // "dob": dob != null ? convertDateFormat(dob!) : null,
+      "blood_group": bloodGroup,
+      "medications": medications,
+      "medical_notes": medicalNotes,
+      "organ_donor": organDonor,
     };
   }
 }

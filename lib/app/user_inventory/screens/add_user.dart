@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pillie_app/app/user_inventory/services/user_database.dart';
 import 'package:pillie_app/components/text_button.dart';
@@ -19,8 +20,13 @@ class _AddUserState extends State<AddUser> {
   final db = UserDatabase();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _daysToRefillController = TextEditingController();
-  final _attentionController = TextEditingController();
+  final _dobController = TextEditingController();
+  final _bloodGroupController = TextEditingController();
+  final _heightController = TextEditingController();
+  final _weightController = TextEditingController();
+  final _medicationController = TextEditingController();
+  final _medicalNotesController = TextEditingController();
+  final _organDonorController = TextEditingController();
 
   // File
   File? _imgFile;
@@ -46,6 +52,9 @@ class _AddUserState extends State<AddUser> {
     // TODO: add snack bar for max file size
   }
 
+  dynamic sanitizeInput(TextEditingController controller) =>
+      controller.text.isEmpty ? null : controller.text;
+
   void addUser() async {
     try {
       // Check if text fields are not null
@@ -54,12 +63,14 @@ class _AddUserState extends State<AddUser> {
         await db.addUser(UserModel(
           name: _nameController.text,
           img: imageUrl,
-          daysToRefill: int.parse(_daysToRefillController.text),
-          itemsAttention: int.parse(_attentionController.text),
+          dob: sanitizeInput(_dobController),
+          height: sanitizeInput(_heightController),
+          weight: sanitizeInput(_weightController),
+          bloodGroup: sanitizeInput(_bloodGroupController),
+          medicalNotes: sanitizeInput(_medicalNotesController),
+          medications: sanitizeInput(_medicationController),
+          organDonor: sanitizeInput(_organDonorController),
         ));
-        _nameController.clear();
-        _attentionController.clear();
-        _daysToRefillController.clear();
         if (mounted) Navigator.pop(context);
       }
     } catch (e) {
@@ -121,25 +132,67 @@ class _AddUserState extends State<AddUser> {
                     ),
                     const SizedBox(height: 16),
                     AppTextFormField(
-                      labelText: 'Days to refill',
-                      textController: _daysToRefillController,
+                      labelText: 'DOB (DD/MM/YYYY)',
+                      textController: _dobController,
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Mandatory";
+                        if (value!.isNotEmpty && value.length != 10) {
+                          return "Enter in DD/MM/YYYY format";
                         }
                         return null;
                       },
                     ),
                     const SizedBox(height: 16),
                     AppTextFormField(
-                      labelText: 'Items need attention',
-                      textController: _attentionController,
+                      labelText: 'Blood Group',
+                      textController: _bloodGroupController,
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Mandatory";
+                        if (value!.isNotEmpty && value.length <= 1) {
+                          return "Enter the appropriate blood group";
                         }
                         return null;
                       },
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: AppTextFormField(
+                            labelText: 'Height (cms)',
+                            textController: _heightController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: AppTextFormField(
+                            labelText: 'Weight (kg)',
+                            textController: _weightController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    AppTextFormField(
+                      labelText: 'Medications',
+                      textController: _medicationController,
+                    ),
+                    const SizedBox(height: 16),
+                    AppTextFormField(
+                      labelText: 'Medical Notes',
+                      textController: _medicalNotesController,
+                    ),
+                    const SizedBox(height: 16),
+                    AppTextFormField(
+                      labelText: 'Organ Donor',
+                      textController: _organDonorController,
                     ),
                     const SizedBox(height: 16),
                     AppTextButton(
@@ -167,6 +220,7 @@ class _AddUserState extends State<AddUser> {
                     },
                     const SizedBox(height: 14),
                     AppTextButton(buttonText: 'Add', onTap: addUser),
+                    const SizedBox(height: 24),
                   ],
                 ),
               ),

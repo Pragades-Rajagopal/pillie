@@ -5,6 +5,10 @@ class UserDatabase {
   final SupabaseQueryBuilder database = Supabase.instance.client.from('users');
 
   Future addUser(UserModel user) async {
-    await database.insert(user.toMap());
+    try {
+      await database.insert(user.toMap());
+    } catch (e, stackTrace) {
+      throw Error.throwWithStackTrace(e, stackTrace);
+    }
   }
 }
