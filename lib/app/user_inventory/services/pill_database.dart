@@ -1,0 +1,29 @@
+import 'package:pillie_app/models/pill_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+class PillDatabase {
+  String userId;
+
+  PillDatabase(this.userId);
+
+  final SupabaseQueryBuilder database =
+      Supabase.instance.client.from('pills_inventory');
+
+  Future addPill(PillModel pill) async {
+    try {
+      await database.insert(pill.toMap());
+    } catch (e, stackTrace) {
+      throw Error.throwWithStackTrace(e, stackTrace);
+    }
+  }
+
+  Stream<List<PillModel>> get pillStream => Supabase.instance.client
+      .from('pills_inventory')
+      .stream(
+        primaryKey: ["id"],
+      )
+      .eq('user_id', userId)
+      .order('count', ascending: true)
+      .map(
+          (data) => data.map((pillMap) => PillModel.fromMap(pillMap)).toList());
+}

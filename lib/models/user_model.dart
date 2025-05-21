@@ -52,7 +52,7 @@ class UserModel {
       "img": img,
       "height": height,
       "weight": weight,
-      // "dob": dob != null ? convertDateFormat(dob!) : null,
+      "dob": dob != null ? convertDateFormat(dob!) : null,
       "blood_group": bloodGroup,
       "medications": medications,
       "medical_notes": medicalNotes,

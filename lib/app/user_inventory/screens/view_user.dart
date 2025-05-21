@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pillie_app/components/text_button.dart';
+import 'package:pillie_app/app/user_inventory/services/pill_database.dart';
+import 'package:pillie_app/components/pill_card.dart';
 import 'package:pillie_app/models/user_model.dart';
 
 class ViewUser extends StatefulWidget {
@@ -17,6 +18,7 @@ class _ViewUserState extends State<ViewUser> {
   @override
   Widget build(BuildContext context) {
     final user = widget.userInfo;
+    final PillDatabase pillDatabase = PillDatabase(user.id!);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -69,7 +71,7 @@ class _ViewUserState extends State<ViewUser> {
                             Theme.of(context).colorScheme.tertiary,
                         indicatorColor: Colors.transparent,
                         indicatorWeight: 0.1,
-                        labelPadding: const EdgeInsets.fromLTRB(14, 0, 60, 0),
+                        labelPadding: const EdgeInsets.fromLTRB(14, 10, 60, 0),
                         dividerColor: Colors.transparent,
                         tabs: const [Text("Inventory"), Text("Info")],
                       )
@@ -82,161 +84,41 @@ class _ViewUserState extends State<ViewUser> {
           ],
           body: TabBarView(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 18.0,
-                  horizontal: 14.0,
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppTextButton(buttonText: 'Add a pill', onTap: () {}),
-                      Card(
-                        elevation: 0,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .tertiary
-                            .withOpacity(0.2),
-                        margin: const EdgeInsets.fromLTRB(0, 14, 0, 0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+              StreamBuilder(
+                stream: pillDatabase.pillStream,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return const Center(
+                      child: Text('Something went wrong'),
+                    );
+                  }
+                  final pills = snapshot.data!;
+                  if (pills.isEmpty) {
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
+                      child: Text(
+                        'Add pills by clicking on the below icon',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
-                        shadowColor: Colors.transparent,
-                        surfaceTintColor: Theme.of(context).colorScheme.surface,
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Tygecol',
-                                    style: TextStyle(
-                                      fontSize: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.fontSize,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Text(
-                                    'Tygecycline',
-                                    style: TextStyle(
-                                      fontSize: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.fontSize,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary
-                                          .withOpacity(0.5),
-                                      borderRadius: BorderRadius.circular(12.0),
-                                    ),
-                                    child: const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 22.0, vertical: 4.0),
-                                      child: Text(
-                                        'Day',
-                                        style: TextStyle(
-                                          fontSize: 10.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary
-                                          .withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(12.0),
-                                    ),
-                                    child: const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 18.0, vertical: 4.0),
-                                      child: Text(
-                                        'Noon',
-                                        style: TextStyle(
-                                          fontSize: 10.0,
-                                          // fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary
-                                          .withOpacity(0.5),
-                                      borderRadius: BorderRadius.circular(12.0),
-                                    ),
-                                    child: const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 18.0, vertical: 4.0),
-                                      child: Text(
-                                        'Night',
-                                        style: TextStyle(
-                                          fontSize: 10.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary
-                                          .withOpacity(0.5),
-                                      borderRadius: BorderRadius.circular(12.0),
-                                    ),
-                                    child: const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 18.0, vertical: 12.0),
-                                      child: Text(
-                                        '9',
-                                        style: TextStyle(fontSize: 28.0),
-                                      ),
-                                    ),
-                                  ),
-                                  const Text(
-                                    'left',
-                                    style: TextStyle(fontSize: 12.0),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+                      ),
+                    );
+                  }
+                  return ListView.builder(
+                    itemCount: pills.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                        child: PillCard(pill: pills[index]),
+                      );
+                    },
+                  );
+                },
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
