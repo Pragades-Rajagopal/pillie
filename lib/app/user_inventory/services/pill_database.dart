@@ -11,7 +11,7 @@ class PillDatabase {
 
   Future addPill(PillModel pill) async {
     try {
-      await database.insert(pill.toMap());
+      await database.insert(pill.toMap(userId));
     } catch (e, stackTrace) {
       throw Error.throwWithStackTrace(e, stackTrace);
     }

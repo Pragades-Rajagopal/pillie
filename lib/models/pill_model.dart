@@ -43,7 +43,7 @@ class PillModel {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap(String? userId) {
     return {
       "name": name,
       "brand": brand,
