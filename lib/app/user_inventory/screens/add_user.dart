@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pillie_app/app/auth/services/auth_service.dart';
 import 'package:pillie_app/app/user_inventory/services/user_database.dart';
 import 'package:pillie_app/components/text_button.dart';
 import 'package:pillie_app/components/text_form_field.dart';
@@ -57,6 +58,7 @@ class _AddUserState extends State<AddUser> {
 
   void addUser() async {
     try {
+      final user = AuthService().getCurrentUser();
       // Check if text fields are not null
       if (_formKey.currentState!.validate()) {
         final imageUrl = await uploadImage();
@@ -64,12 +66,17 @@ class _AddUserState extends State<AddUser> {
           name: _nameController.text,
           img: imageUrl,
           dob: sanitizeInput(_dobController),
-          height: sanitizeInput(_heightController),
-          weight: sanitizeInput(_weightController),
+          height: _heightController.text.isNotEmpty
+              ? int.tryParse(sanitizeInput(_heightController).toString())
+              : null,
+          weight: _weightController.text.isNotEmpty
+              ? int.tryParse(sanitizeInput(_weightController).toString())
+              : null,
           bloodGroup: sanitizeInput(_bloodGroupController),
           medicalNotes: sanitizeInput(_medicalNotesController),
           medications: sanitizeInput(_medicationController),
           organDonor: sanitizeInput(_organDonorController),
+          parentUserId: user!["uid"],
         ));
         if (mounted) Navigator.pop(context);
       }

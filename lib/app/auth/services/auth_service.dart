@@ -16,9 +16,12 @@ class AuthService {
     return await _supabaseClient.auth.signOut();
   }
 
-  String? getCurrentUser() {
+  Map<String, dynamic>? getCurrentUser() {
     final session = _supabaseClient.auth.currentSession;
     final user = session?.user;
-    return user?.email;
+    return {
+      "email": user?.email,
+      "uid": user?.id,
+    };
   }
 }

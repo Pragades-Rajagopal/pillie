@@ -40,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       body: Center(
-        child: Text(user.toString()),
+        child: Text(user!["email"].toString()),
       ),
     );
   }

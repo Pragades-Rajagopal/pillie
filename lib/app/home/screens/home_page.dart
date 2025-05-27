@@ -15,12 +15,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   AuthService authService = AuthService();
-  final db = HomeDatabase();
 
   @override
   Widget build(BuildContext context) {
     final user = authService.getCurrentUser();
-    final userName = user!.toString().split('@')[0].toUpperCase();
+    final userName = user!["email"].toString().split('@')[0].toUpperCase();
 
     return Scaffold(
       body: CustomScrollView(
@@ -86,7 +85,7 @@ class _HomePageState extends State<HomePage> {
             expandedHeight: 120,
           ),
           StreamBuilder(
-            stream: db.stream,
+            stream: HomeDatabase(user["uid"]).stream,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const SliverToBoxAdapter(

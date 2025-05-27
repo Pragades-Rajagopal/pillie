@@ -13,6 +13,7 @@ class UserModel {
   String? organDonor;
   String? createdAt;
   String? modifiedAt;
+  String? parentUserId;
 
   UserModel({
     this.id,
@@ -27,6 +28,7 @@ class UserModel {
     this.organDonor,
     this.createdAt,
     this.modifiedAt,
+    this.parentUserId,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -57,6 +59,7 @@ class UserModel {
       "medications": medications,
       "medical_notes": medicalNotes,
       "organ_donor": organDonor,
+      "parent_user_id": parentUserId,
     };
   }
 }
