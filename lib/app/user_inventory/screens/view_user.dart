@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pillie_app/app/user_inventory/screens/edit_user.dart';
 import 'package:pillie_app/app/user_inventory/services/pill_database.dart';
 import 'package:pillie_app/app/user_inventory/widgets/pill_stream_builder.dart';
 import 'package:pillie_app/components/text_button.dart';
@@ -39,7 +40,7 @@ class _ViewUserState extends State<ViewUser> {
                   "${user.name}",
                   style: const TextStyle(
                     fontSize: 22.0,
-                    color: Colors.black,
+                    // color: Colors.black,
                   ),
                 ),
                 background: Padding(
@@ -53,13 +54,25 @@ class _ViewUserState extends State<ViewUser> {
                 stretchModes: const [StretchMode.blurBackground],
               ),
               expandedHeight: 200.0,
-              backgroundColor: Colors.lightGreen[200],
+              // backgroundColor: Colors.lightGreen[200],
               actions: [
+                IconButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditUser(userInfo: user),
+                    ),
+                  ),
+                  icon: const Icon(
+                    CupertinoIcons.pencil_circle,
+                    // color: Colors.black,
+                  ),
+                ),
                 IconButton(
                   onPressed: () => showAddPillBottomSheet(context),
                   icon: const Icon(
                     CupertinoIcons.add_circled,
-                    color: Colors.black,
+                    // color: Colors.black,
                   ),
                 )
               ],
