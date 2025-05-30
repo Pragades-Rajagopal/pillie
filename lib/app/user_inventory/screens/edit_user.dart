@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -150,14 +151,61 @@ class _EditUserState extends State<EditUser> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (widget.userInfo.img != null &&
-                        widget.userInfo.img!.isNotEmpty) ...{
-                      CircleAvatar(
-                        radius: 160,
-                        backgroundImage: NetworkImage('${widget.userInfo.img}'),
+                    if (widget.userInfo.img == null ||
+                        widget.userInfo.img!.isEmpty) ...{
+                      if (_imgFile != null) ...{
+                        CircleAvatar(
+                          radius: 120,
+                          backgroundImage: FileImage(_imgFile!),
+                        ),
+                        const SizedBox(height: 16),
+                      },
+                      AppTextButton(
+                        buttonText: 'Upload a Profile Picture',
+                        onTap: pickImage,
+                        buttonColor: Theme.of(context).colorScheme.primary,
                       ),
+                      const SizedBox(height: 16),
+                    } else ...{
+                      Stack(
+                        children: [
+                          if (_imgFile != null) ...{
+                            CircleAvatar(
+                              radius: 120,
+                              backgroundImage: FileImage(_imgFile!),
+                            ),
+                          } else if (widget.userInfo.img != null &&
+                              widget.userInfo.img!.isNotEmpty) ...{
+                            CircleAvatar(
+                              radius: 120,
+                              backgroundImage:
+                                  NetworkImage('${widget.userInfo.img}'),
+                            ),
+                          },
+                          Positioned(
+                            bottom: 20,
+                            right: 20,
+                            child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: IconButton(
+                                icon: Icon(CupertinoIcons.pencil_circle_fill,
+                                    color:
+                                        Theme.of(context).colorScheme.surface),
+                                onPressed: pickImage,
+                                iconSize: 28,
+                                padding: const EdgeInsets.all(0),
+                                constraints: const BoxConstraints(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
                     },
-                    const SizedBox(height: 16),
                     AppTextFormField(
                       labelText: 'Name',
                       textController: _nameController,
@@ -232,30 +280,24 @@ class _EditUserState extends State<EditUser> {
                       labelText: 'Organ Donor',
                       textController: _organDonorController,
                     ),
-                    const SizedBox(height: 16),
-                    AppTextButton(
-                      buttonText: 'Upload New Profile Picture',
-                      onTap: pickImage,
-                      buttonColor: Theme.of(context).colorScheme.primary,
-                    ),
-                    if (_imgFile != null) ...{
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Image Preview',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                          ),
-                          CircleAvatar(
-                            backgroundImage: FileImage(_imgFile!),
-                            radius: 30.0,
-                          ),
-                        ],
-                      ),
-                    },
+                    // if (_imgFile != null) ...{
+                    //   const SizedBox(height: 16),
+                    //   Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       Text(
+                    //         'Image Preview',
+                    //         style: TextStyle(
+                    //           color: Theme.of(context).colorScheme.secondary,
+                    //         ),
+                    //       ),
+                    //       CircleAvatar(
+                    //         backgroundImage: FileImage(_imgFile!),
+                    //         radius: 30.0,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // },
                     const SizedBox(height: 14),
                     AppTextButton(buttonText: 'Edit', onTap: editUser),
                     const SizedBox(height: 24),
