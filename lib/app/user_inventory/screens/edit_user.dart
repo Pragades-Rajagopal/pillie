@@ -84,26 +84,28 @@ class _EditUserState extends State<EditUser> {
     try {
       final user = AuthService().getCurrentUser();
       // Check if text fields are not null
-      // if (_formKey.currentState!.validate()) {
-      //   final imageUrl = await uploadImage();
-      //   await db.editUser(UserModel(
-      //     name: _nameController.text,
-      //     img: imageUrl,
-      //     dob: sanitizeInput(_dobController),
-      //     height: _heightController.text.isNotEmpty
-      //         ? int.tryParse(sanitizeInput(_heightController).toString())
-      //         : null,
-      //     weight: _weightController.text.isNotEmpty
-      //         ? int.tryParse(sanitizeInput(_weightController).toString())
-      //         : null,
-      //     bloodGroup: sanitizeInput(_bloodGroupController),
-      //     medicalNotes: sanitizeInput(_medicalNotesController),
-      //     medications: sanitizeInput(_medicationController),
-      //     organDonor: sanitizeInput(_organDonorController),
-      //     parentUserId: user!["uid"],
-      //   ));
-      //   if (mounted) Navigator.pop(context);
-      // }
+      if (_formKey.currentState!.validate()) {
+        final imageUrl = await uploadImage();
+        await db.updateUser(
+            UserModel(
+              name: _nameController.text,
+              img: imageUrl ?? widget.userInfo.img!,
+              dob: sanitizeInput(_dobController),
+              height: _heightController.text.isNotEmpty
+                  ? int.tryParse(sanitizeInput(_heightController).toString())
+                  : null,
+              weight: _weightController.text.isNotEmpty
+                  ? int.tryParse(sanitizeInput(_weightController).toString())
+                  : null,
+              bloodGroup: sanitizeInput(_bloodGroupController),
+              medicalNotes: sanitizeInput(_medicalNotesController),
+              medications: sanitizeInput(_medicationController),
+              organDonor: sanitizeInput(_organDonorController),
+              parentUserId: user!["uid"],
+            ),
+            widget.userInfo.id!);
+        if (mounted) Navigator.pop(context);
+      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

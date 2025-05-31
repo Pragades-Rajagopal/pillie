@@ -11,4 +11,13 @@ class UserDatabase {
       throw Error.throwWithStackTrace(e, stackTrace);
     }
   }
+
+  Future updateUser(UserModel data, String userId) async {
+    try {
+      await database.update(data.toMap()).eq('id', userId);
+    } catch (e, stackTrace) {
+      print(e);
+      throw Error.throwWithStackTrace(e, stackTrace);
+    }
+  }
 }
