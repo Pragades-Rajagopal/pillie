@@ -7,6 +7,7 @@ import 'package:pillie_app/components/text_button.dart';
 import 'package:pillie_app/components/text_form_field.dart';
 import 'package:pillie_app/models/pill_model.dart';
 import 'package:pillie_app/models/user_model.dart';
+import 'package:pillie_app/utils/helper_functions.dart';
 
 class ViewUser extends StatefulWidget {
   final UserModel userInfo;
@@ -121,7 +122,11 @@ class _ViewUserState extends State<ViewUser> {
                     children: [
                       dataElement('Blood Group', user.bloodGroup),
                       dataElement(
-                          'DOB', user.dob != null ? user.dob.toString() : ''),
+                          'DOB',
+                          user.dob != null
+                              ? convertDateFormat(user.dob.toString(),
+                                  format: 'dmy', separator: '-')
+                              : ''),
                       dataElement('Height',
                           user.height != null ? user.height.toString() : ''),
                       dataElement('Weight',

@@ -9,6 +9,7 @@ import 'package:pillie_app/components/text_button.dart';
 import 'package:pillie_app/components/text_form_field.dart';
 import 'package:pillie_app/models/user_model.dart';
 import 'package:pillie_app/utils/dotenv.dart';
+import 'package:pillie_app/utils/helper_functions.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditUser extends StatefulWidget {
@@ -40,7 +41,10 @@ class _EditUserState extends State<EditUser> {
     super.initState();
     setState(() {
       _nameController.text = widget.userInfo.name ?? '';
-      _dobController.text = widget.userInfo.dob ?? '';
+      _dobController.text = widget.userInfo.dob != null
+          ? convertDateFormat(widget.userInfo.dob!,
+              format: 'dmy', separator: '-')
+          : '';
       _bloodGroupController.text = widget.userInfo.bloodGroup ?? '';
       _heightController.text = widget.userInfo.height != null
           ? widget.userInfo.height.toString()
