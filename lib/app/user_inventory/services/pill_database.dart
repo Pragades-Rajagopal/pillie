@@ -17,6 +17,14 @@ class PillDatabase {
     }
   }
 
+  Future editPill(PillModel pill, String pillId) async {
+    try {
+      await database.update(pill.toMap(userId)).eq("id", pillId);
+    } catch (e, stackTrace) {
+      throw Error.throwWithStackTrace(e, stackTrace);
+    }
+  }
+
   Stream<List<PillModel>> get pillStream => Supabase.instance.client
       .from('pills_inventory')
       .stream(

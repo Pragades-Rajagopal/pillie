@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pillie_app/app/user_inventory/screens/edit_user.dart';
 import 'package:pillie_app/app/user_inventory/services/pill_database.dart';
 import 'package:pillie_app/app/user_inventory/widgets/pill_stream_builder.dart';
-import 'package:pillie_app/components/text_button.dart';
-import 'package:pillie_app/components/text_form_field.dart';
+import 'package:pillie_app/components/common_components.dart';
 import 'package:pillie_app/models/pill_model.dart';
 import 'package:pillie_app/models/user_model.dart';
 import 'package:pillie_app/utils/helper_functions.dart';
@@ -184,86 +183,19 @@ class _ViewUserState extends State<ViewUser> {
         night: selectedOptions.contains(2) ? true : false,
         dosage: int.tryParse(dosageController.text),
       ));
-      if (mounted) Navigator.pop(context);
+      if (context.mounted) Navigator.pop(context);
     }
 
-    showModalBottomSheet(
-      context: context,
-      showDragHandle: true,
-      builder: (BuildContext context) {
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(18.0, 12.0, 18.0, 32.0),
-            child: StatefulBuilder(
-              builder: (context, setState) => Form(
-                child: Column(
-                  children: [
-                    AppTextFormField(
-                      labelText: 'Drug Name',
-                      textController: drugNameController,
-                    ),
-                    const SizedBox(height: 12),
-                    AppTextFormField(
-                      labelText: 'Brand Name',
-                      textController: brandNameController,
-                    ),
-                    const SizedBox(height: 12),
-                    AppTextFormField(
-                      labelText: 'Count',
-                      textController: countController,
-                    ),
-                    const SizedBox(height: 12),
-                    AppTextFormField(
-                      labelText: 'Dosage',
-                      textController: dosageController,
-                    ),
-                    const SizedBox(height: 12),
-                    Wrap(
-                      spacing: 8.0,
-                      children:
-                          List<Widget>.generate(options.length, (int index) {
-                        return FilterChip(
-                          showCheckmark: false,
-                          label: Text(options[index]),
-                          selected: selectedOptions.contains(index),
-                          shadowColor: Colors.transparent,
-                          selectedShadowColor: Colors.transparent,
-                          // labelStyle: TextStyle(
-                          //   color: Theme.of(context).colorScheme.tertiary,
-                          // ),
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                              color: Theme.of(context).colorScheme.tertiary,
-                              width: 2.0,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(8.0)),
-                          ),
-                          selectedColor: Theme.of(context)
-                              .colorScheme
-                              .tertiary
-                              .withOpacity(0.5),
-                          onSelected: (bool selectedValue) {
-                            setState(() {
-                              if (selectedValue) {
-                                selectedOptions.add(index);
-                              } else {
-                                selectedOptions.remove(index);
-                              }
-                            });
-                          },
-                        );
-                      }),
-                    ),
-                    const SizedBox(height: 18),
-                    AppTextButton(buttonText: 'Add Pill', onTap: addPill),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
+    CommonComponents().pillBottomSheetModal(
+      context,
+      addPill,
+      drugNameController,
+      brandNameController,
+      countController,
+      dosageController,
+      options,
+      selectedOptions,
+      "Add Pill",
     );
   }
 }
