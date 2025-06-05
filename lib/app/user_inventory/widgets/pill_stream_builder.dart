@@ -26,7 +26,8 @@ class PillStreamBuilder extends StatelessWidget {
             child: Text('Something went wrong'),
           );
         }
-        final pills = snapshot.data!;
+        final pills =
+            snapshot.data!.where((pill) => pill.isArchived == false).toList();
         if (pills.isEmpty) {
           return Padding(
             padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
@@ -78,7 +79,7 @@ class PillStreamBuilder extends StatelessWidget {
           day: selectedOptions.contains(0) ? true : false,
           noon: selectedOptions.contains(1) ? true : false,
           night: selectedOptions.contains(2) ? true : false,
-          dosage: int.tryParse(dosageController.text),
+          dosage: double.tryParse(dosageController.text),
         ),
         pill.id!,
       );

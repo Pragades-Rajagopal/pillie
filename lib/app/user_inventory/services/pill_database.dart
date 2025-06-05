@@ -34,4 +34,15 @@ class PillDatabase {
       .order('count', ascending: true)
       .map(
           (data) => data.map((pillMap) => PillModel.fromMap(pillMap)).toList());
+
+  Future archivePill(String pillId) async {
+    try {
+      await database
+          .update({"is_archived": true})
+          .eq("id", pillId)
+          .eq("user_id", userId);
+    } catch (e, stackTrace) {
+      throw Error.throwWithStackTrace(e, stackTrace);
+    }
+  }
 }

@@ -24,7 +24,7 @@ class _ViewUserState extends State<ViewUser> {
   Widget build(BuildContext context) {
     final user = widget.userInfo;
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
@@ -98,7 +98,11 @@ class _ViewUserState extends State<ViewUser> {
                         indicatorWeight: 0.1,
                         labelPadding: const EdgeInsets.fromLTRB(14, 10, 60, 0),
                         dividerColor: Colors.transparent,
-                        tabs: const [Text("Inventory"), Text("Info")],
+                        tabs: const [
+                          Text("Inventory"),
+                          Text("Info"),
+                          Text("Archives"),
+                        ],
                       )
                     ],
                   );
@@ -137,6 +141,7 @@ class _ViewUserState extends State<ViewUser> {
                   ),
                 ),
               ),
+              PillStreamBuilder(userId: widget.userInfo.id!),
             ],
           ),
         ),
@@ -181,7 +186,7 @@ class _ViewUserState extends State<ViewUser> {
         day: selectedOptions.contains(0) ? true : false,
         noon: selectedOptions.contains(1) ? true : false,
         night: selectedOptions.contains(2) ? true : false,
-        dosage: int.tryParse(dosageController.text),
+        dosage: double.tryParse(dosageController.text),
       ));
       if (context.mounted) Navigator.pop(context);
     }

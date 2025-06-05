@@ -8,8 +8,9 @@ class PillModel {
   bool? day;
   bool? noon;
   bool? night;
-  int? dosage;
+  double? dosage;
   String? userId;
+  bool? isArchived;
   String? createdAt;
   String? modifiedAt;
 
@@ -22,6 +23,7 @@ class PillModel {
     this.noon,
     this.night,
     this.dosage,
+    this.isArchived,
     this.userId,
     this.createdAt,
     this.modifiedAt,
@@ -37,7 +39,8 @@ class PillModel {
       day: map["day"] as bool,
       noon: map["noon"] as bool,
       night: map["night"] as bool,
-      dosage: sanitizeValue<dynamic>(map["dosage"]),
+      dosage: sanitizeValue<double>(map["dosage"]),
+      isArchived: map["is_archived"] as bool,
       createdAt: map["created_at"],
       modifiedAt: map["modified_at"],
     );
