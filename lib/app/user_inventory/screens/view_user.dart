@@ -91,12 +91,12 @@ class _ViewUserState extends State<ViewUser> {
                         overlayColor:
                             const WidgetStatePropertyAll(Colors.transparent),
                         labelColor: Theme.of(context).colorScheme.primary,
-                        labelStyle: const TextStyle(fontSize: 24),
+                        labelStyle: const TextStyle(fontSize: 28),
                         unselectedLabelColor:
                             Theme.of(context).colorScheme.tertiary,
                         indicatorColor: Colors.transparent,
                         indicatorWeight: 0.1,
-                        labelPadding: const EdgeInsets.fromLTRB(14, 10, 60, 0),
+                        labelPadding: const EdgeInsets.fromLTRB(18, 10, 60, 0),
                         dividerColor: Colors.transparent,
                         tabs: const [
                           Text("Inventory"),
@@ -113,7 +113,7 @@ class _ViewUserState extends State<ViewUser> {
           ],
           body: TabBarView(
             children: [
-              PillStreamBuilder(userId: widget.userInfo.id!),
+              PillStreamBuilder(userId: widget.userInfo.id!, type: 'active'),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 18.0,
@@ -141,7 +141,7 @@ class _ViewUserState extends State<ViewUser> {
                   ),
                 ),
               ),
-              PillStreamBuilder(userId: widget.userInfo.id!),
+              PillStreamBuilder(userId: widget.userInfo.id!, type: 'archive'),
             ],
           ),
         ),

@@ -45,4 +45,23 @@ class PillDatabase {
       throw Error.throwWithStackTrace(e, stackTrace);
     }
   }
+
+  Future restorePill(String pillId) async {
+    try {
+      await database
+          .update({"is_archived": false})
+          .eq("id", pillId)
+          .eq("user_id", userId);
+    } catch (e, stackTrace) {
+      throw Error.throwWithStackTrace(e, stackTrace);
+    }
+  }
+
+  Future deletePill(String pillId) async {
+    try {
+      await database.delete().eq("id", pillId).eq("user_id", userId);
+    } catch (e, stackTrace) {
+      throw Error.throwWithStackTrace(e, stackTrace);
+    }
+  }
 }

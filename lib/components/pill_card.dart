@@ -1,56 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pillie_app/app/user_inventory/services/pill_database.dart';
+import 'package:pillie_app/components/swipable_card.dart';
 import 'package:pillie_app/models/pill_model.dart';
 
 class PillCard extends StatelessWidget {
   final PillModel pill;
+  final String pillType;
   const PillCard({
     super.key,
     required this.pill,
+    required this.pillType,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Dismissible(
-      key: Key(pill.id!),
-      direction: DismissDirection.startToEnd,
-      background: Container(
-        margin: const EdgeInsets.fromLTRB(0, 14, 0, 0),
-        decoration: ShapeDecoration(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          color: Theme.of(context).colorScheme.tertiary.withOpacity(0.1),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 16.0),
-              child: Row(
-                children: [
-                  Icon(
-                    CupertinoIcons.archivebox,
-                    color: Theme.of(context).colorScheme.primary,
-                    size: 24,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    'Archive',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-      onDismissed: (_) => PillDatabase(pill.userId!).archivePill(pill.id!),
-      child: Card(
+    final IconData swipeRightActionIcon = pillType == 'archive'
+        ? CupertinoIcons.restart
+        : CupertinoIcons.archivebox;
+    final String swipeRightActionText =
+        pillType == 'archive' ? 'Restore' : 'Archive';
+    final Function(DismissDirection) onDismissedAction = pillType == 'archive'
+        ? (_) => PillDatabase(pill.userId!).restorePill(pill.id!)
+        : (_) => PillDatabase(pill.userId!).archivePill(pill.id!);
+
+    return SwipableCard(
+      uniqueKey: pill.id!,
+      swipeRightActionIcon: swipeRightActionIcon,
+      swipeRightActionText: swipeRightActionText,
+      onDismissedAction: onDismissedAction,
+      cardWidget: Card(
         elevation: 0,
         color: Theme.of(context).colorScheme.tertiary.withOpacity(0.2),
         margin: const EdgeInsets.fromLTRB(0, 14, 0, 0),

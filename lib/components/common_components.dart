@@ -4,19 +4,23 @@ import 'package:pillie_app/components/text_form_field.dart';
 
 class CommonComponents {
   void pillBottomSheetModal(
-      BuildContext context,
-      dynamic Function() onTapFunc,
-      TextEditingController drugNameController,
-      TextEditingController brandNameController,
-      TextEditingController countController,
-      TextEditingController dosageController,
-      List<String> options,
-      Set<int> selectedOptions,
-      String buttonText) {
+    BuildContext context,
+    dynamic Function() onTapFunc,
+    TextEditingController drugNameController,
+    TextEditingController brandNameController,
+    TextEditingController countController,
+    TextEditingController dosageController,
+    List<String> options,
+    Set<int> selectedOptions,
+    String buttonText, {
+    dynamic Function()? secondaryOnTapAction,
+    String? secondaryButtonText = '',
+  }) {
     GlobalKey formKey = GlobalKey<FormState>();
     showModalBottomSheet(
       context: context,
       showDragHandle: true,
+      isScrollControlled: true,
       builder: (BuildContext context) {
         return SingleChildScrollView(
           child: Padding(
@@ -91,6 +95,14 @@ class CommonComponents {
                     ),
                     const SizedBox(height: 18),
                     AppTextButton(buttonText: buttonText, onTap: onTapFunc),
+                    if (secondaryOnTapAction != null) ...{
+                      const SizedBox(height: 18),
+                      AppTextButton(
+                        buttonText: secondaryButtonText!,
+                        onTap: secondaryOnTapAction,
+                        buttonColor: Colors.red,
+                      ),
+                    }
                   ],
                 ),
               ),

@@ -6,9 +6,11 @@ import 'package:pillie_app/models/pill_model.dart';
 
 class PillStreamBuilder extends StatelessWidget {
   final String userId;
+  final String type;
   const PillStreamBuilder({
     super.key,
     required this.userId,
+    required this.type,
   });
 
   @override
@@ -26,13 +28,15 @@ class PillStreamBuilder extends StatelessWidget {
             child: Text('Something went wrong'),
           );
         }
-        final pills =
-            snapshot.data!.where((pill) => pill.isArchived == false).toList();
-        if (pills.isEmpty) {
+        final pills = snapshot.data!
+            .where(
+                (pill) => pill.isArchived == (type == 'archive' ? true : false))
+            .toList();
+        if (pills.isEmpty && type == 'active') {
           return Padding(
             padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
             child: Text(
-              'Add pills by clicking on the below icon',
+              'Add pills by clicking on the add icon',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.secondary,
@@ -47,7 +51,7 @@ class PillStreamBuilder extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: GestureDetector(
                 onTap: () => showEditPillBottomSheet(context, pills[index]),
-                child: PillCard(pill: pills[index]),
+                child: PillCard(pill: pills[index], pillType: type),
               ),
             );
           },
@@ -86,6 +90,11 @@ class PillStreamBuilder extends StatelessWidget {
       if (context.mounted) Navigator.pop(context);
     }
 
+    void deletePill() async {
+      await PillDatabase(userId).deletePill(pill.id!);
+      if (context.mounted) Navigator.pop(context);
+    }
+
     CommonComponents().pillBottomSheetModal(
       context,
       editPill,
@@ -96,6 +105,8 @@ class PillStreamBuilder extends StatelessWidget {
       options,
       selectedOptions,
       'Edit Pill',
+      secondaryButtonText: 'Delete',
+      secondaryOnTapAction: deletePill,
     );
   }
 }
