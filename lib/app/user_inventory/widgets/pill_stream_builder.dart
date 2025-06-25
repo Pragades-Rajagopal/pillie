@@ -67,6 +67,8 @@ class PillStreamBuilder extends StatelessWidget {
         TextEditingController(text: pill.count?.toString() ?? '');
     final dosageController =
         TextEditingController(text: pill.dosage?.toString() ?? '');
+    final resetDaysController =
+        TextEditingController(text: pill.resetDays?.toString() ?? '');
     final List<String> options = ['Day', 'Noon', 'Night'];
     final Set<int> selectedOptions = {
       if (pill.day == true) 0,
@@ -84,6 +86,7 @@ class PillStreamBuilder extends StatelessWidget {
           noon: selectedOptions.contains(1) ? true : false,
           night: selectedOptions.contains(2) ? true : false,
           dosage: double.tryParse(dosageController.text),
+          resetDays: int.tryParse(resetDaysController.text),
         ),
         pill.id!,
       );
@@ -102,6 +105,7 @@ class PillStreamBuilder extends StatelessWidget {
       brandNameController,
       countController,
       dosageController,
+      resetDaysController,
       options,
       selectedOptions,
       'Edit Pill',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pillie_app/components/text_button.dart';
 import 'package:pillie_app/components/text_form_field.dart';
 
@@ -10,6 +11,7 @@ class CommonComponents {
     TextEditingController brandNameController,
     TextEditingController countController,
     TextEditingController dosageController,
+    TextEditingController resetDaysController,
     List<String> options,
     Set<int> selectedOptions,
     String buttonText, {
@@ -49,11 +51,20 @@ class CommonComponents {
                     AppTextFormField(
                       labelText: 'Count',
                       textController: countController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
                     const SizedBox(height: 12),
                     AppTextFormField(
                       labelText: 'Dosage',
                       textController: dosageController,
+                    ),
+                    const SizedBox(height: 12),
+                    AppTextFormField(
+                      labelText: 'Reset in Days',
+                      textController: resetDaysController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
                     const SizedBox(height: 12),
                     Wrap(

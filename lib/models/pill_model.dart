@@ -5,6 +5,7 @@ class PillModel {
   String? name;
   String? brand;
   int? count;
+  int? resetDays;
   bool? day;
   bool? noon;
   bool? night;
@@ -19,6 +20,7 @@ class PillModel {
     this.name,
     this.brand,
     this.count,
+    this.resetDays,
     this.day,
     this.noon,
     this.night,
@@ -40,6 +42,7 @@ class PillModel {
       noon: map["noon"] as bool,
       night: map["night"] as bool,
       dosage: sanitizeValue<double>(map["dosage"]),
+      resetDays: sanitizeValue<dynamic>(map["reset_in_days"]),
       isArchived: map["is_archived"] as bool,
       createdAt: map["created_at"],
       modifiedAt: map["modified_at"],
@@ -56,6 +59,7 @@ class PillModel {
       "noon": noon,
       "night": night,
       "dosage": dosage,
+      "reset_in_days": resetDays,
     };
   }
 }

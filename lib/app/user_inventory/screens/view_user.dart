@@ -175,6 +175,7 @@ class _ViewUserState extends State<ViewUser> {
     final brandNameController = TextEditingController();
     final countController = TextEditingController();
     final dosageController = TextEditingController();
+    final resetDaysController = TextEditingController();
     final List<String> options = ['Day', 'Noon', 'Night'];
     final Set<int> selectedOptions = {};
 
@@ -183,6 +184,7 @@ class _ViewUserState extends State<ViewUser> {
         name: drugNameController.text,
         brand: brandNameController.text,
         count: int.tryParse(countController.text),
+        resetDays: int.tryParse(resetDaysController.text),
         day: selectedOptions.contains(0) ? true : false,
         noon: selectedOptions.contains(1) ? true : false,
         night: selectedOptions.contains(2) ? true : false,
@@ -198,6 +200,7 @@ class _ViewUserState extends State<ViewUser> {
       brandNameController,
       countController,
       dosageController,
+      resetDaysController,
       options,
       selectedOptions,
       "Add Pill",
